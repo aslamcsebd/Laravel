@@ -1,0 +1,568 @@
+<!-- Laravel install -->
+<pre id="laravelTable">
+Schema::create('users', function (Blueprint $table) {
+   $table->id();
+   $table->string('name');
+   $table->string('email')->unique();<b class="text-primary">
+   Extra column add[access_token] for passport
+   $table->text('access_token')->nullable();</b>
+   $table->timestamp('email_verified_at')->nullable();
+   $table->string('password');
+   $table->rememberToken();
+   $table->timestamps();
+});
+<b>
+   php artisan migrate
+   & add some data in the users table... 
+</b>
+</pre>
+
+<!-- Get -->
+<pre id="apiFirst" class="text-primary">
+<h5><b><i>This is first time in the upper[api.php]</i></b></h5>
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+</pre>
+
+<pre id="controllerFirst" class="text-primary">
+<h5><b><i>This is first time in the upper[controller.php]</i></b></h5>
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Validator;
+use Auth;
+
+class UserController extends Controller{
+   
+}
+</pre>
+<pre id="getDataController">
+public function showUser($id=null){
+   if($id==''){
+      $users = User::get();
+      return response()->json(['users'=>$users], 200);
+   }else{
+      $users = User::find($id);
+      return response()->json(['users'=>$users], 200);
+      //200=no error...
+   } 
+}
+</pre>
+
+<pre id="getAllDataPostman">
+{
+   "users": [
+      {
+         "id": 1,
+         "name": "Gennaro Kuphal",
+         "email": "sheridan67@yahoo.com",
+         "access_token": null,
+         "email_verified_at": null,
+         "created_at": null,
+         "updated_at": null
+      },
+      {
+         "id": 2,
+         "name": "Tate Heaney",
+         "email": "haley.joy@balistreri.com",
+         "access_token": null,
+         "email_verified_at": null,
+         "created_at": null,
+         "updated_at": null
+      }
+      <b>Continue...</b>
+   ]
+}
+</pre>
+
+<pre id="getSingleDataPostman">
+{
+   "users": {
+     "id": 5,
+     "name": "Marielle Ziemann",
+     "email": "elliott47@douglas.info",
+     "access_token": null,
+     "email_verified_at": null,
+     "created_at": null,
+     "updated_at": null
+   }
+}
+</pre>
+
+<!-- Post -->
+<pre id="postSingleDataController">
+public function addUser(Request $request){
+   if($request->ismethod('post')){
+      $data = $request->all();
+
+      // Validation
+      $rules = [
+         'name' => 'required',
+         'email' => 'required|email|unique:users',
+         'password' => 'required',
+      ];
+
+      $customMessage = [
+         'name.required' => 'Name is required',
+         'email.required' => 'Email is required',
+         'email.email' => 'Email must be a valid email',
+         'password.required' => 'Password is required',
+      ];
+      $validator = Validator::make($data, $rules, $customMessage);
+      if ($validator->fails()) {
+         return response()->json($validator->errors(),422);
+      }
+
+      $user = new User();
+      $user->name = $data['name'];
+      $user->email = $data['email'];
+      $user->password = bcrypt($data['password']);
+      $user->save();
+      $message = 'User add successfully';
+      return response()->json(['message'=>$message], 201); 
+      //200=create...
+   } 
+}
+</pre>
+
+<pre id="postMultipleDataController">
+public function addMultipleUser(Request $request){
+   if($request->ismethod('post')){
+      $data = $request->all();
+
+      // Validation
+      $rules = [
+         'users.*.name' => 'required',
+         'users.*.email' => 'required|email|unique:users',
+         'users.*.password' => 'required',
+      ];
+
+      $customMessage = [
+         'users.*.name.required' => 'Name is required',
+         'users.*.email.required' => 'Email is required',
+         'users.*.email.email' => 'Email must be a valid email',
+         'users.*.password.required' => 'Password is required',
+      ];
+      $validator = Validator::make($data, $rules, $customMessage);
+      if ($validator->fails()) {
+         return response()->json($validator->errors(),422);
+      }
+      $loop=0;
+      foreach($data['users'] as $addUser){
+         $user = new User();
+         $user->name = $addUser['name'];
+         $user->email = $addUser['email'];
+         $user->password = bcrypt($addUser['password']);
+         $user->save();
+         $loop++;
+         $message = $loop . ' User add successfully';
+      }
+      return response()->json(['message'=>$message], 201); 
+      //200=create...
+   } 
+}
+</pre>
+
+<pre id="postMultipleDataInsertPostman">
+{
+   "users": [
+      {
+         "name": "Aslam",
+         "email": "aslam@gmail.com",
+         "password": "123456"
+      },
+      {
+         "name": "Aslam2",
+         "email": "aslam2@yahoo.com",
+         "password": "654321"
+      }
+   ]
+}
+</pre>
+
+<pre id="postSingleDataOutputPostman">
+{
+   "message": "User add successfully"
+}
+<b>Or...</b>
+{
+   "email": [
+     "The email has already been taken."
+   ]
+}
+</pre>
+
+<pre id="postMultipleDataOutputPostman">
+{
+   "message": "2 User add successfully"
+}
+<b>Or...</b>
+{
+   "users.0.email": [
+     "The users.0.email has already been taken."
+   ],
+   "users.1.email": [
+     "The users.1.email has already been taken."
+   ]
+}
+</pre>
+
+<!-- Put -->
+<pre id="putDataController">
+public function updateUserDetails(Request $request, $id){
+   if($request->ismethod('put')){
+      $data = $request->all();
+
+      // Validation
+      $rules = [
+         'name' => 'required', 
+         //email don't update anytime
+         'password' => 'required',
+      ];
+
+      $customMessage = [
+         'name.required' => 'Name is required',
+         'password.required' => 'Password is required',
+      ];
+      $validator = Validator::make($data, $rules, $customMessage);
+      if ($validator->fails()) {
+         return response()->json($validator->errors(),422);
+      }
+
+      // $user = User::find($id);
+      $user = User::findOrFail($id); 
+      //Any id find or not [404 not found] message show 
+      $user->name = $data['name'];
+      $user->password = bcrypt($data['password']);
+      $user->save();
+      $message = 'User details updated successfully';
+      return response()->json(['message'=>$message], 202); 
+      //202=you are update data...
+   } 
+}
+</pre>
+
+<pre id="putDataPostman">
+{
+  "name": "Aslam",
+  "password": "123456"
+}
+</pre>
+
+<pre id="putDataOutputPostman">
+{
+   "message": "User details updated successfully"
+}
+</pre>
+
+<!-- Patch -->
+<pre id="patchDataController">
+public function updateSingleRecord(Request $request, $id){
+   if($request->ismethod('patch')){
+      $data = $request->all();
+
+      // Validation
+      $rules = [
+         'name' => 'required'
+      ];
+
+      $customMessage = [
+         'name.required' => 'Name is required'
+      ];
+      $validator = Validator::make($data, $rules, $customMessage);
+      if ($validator->fails()) {
+         return response()->json($validator->errors(),422);
+      }
+
+      // $user = User::find($id);
+      $user = User::findOrFail($id); 
+      //Any id find or not [404 not found] message show 
+      $user->name = $data['name'];
+      $user->save();
+      $message = 'User single record updated successfully';
+      return response()->json(['message'=>$message], 202); 
+      //202=you are update data...
+   } 
+}
+</pre>
+
+<pre id="patchDataPostman">
+{
+  "name": "Aslam"
+}
+</pre>
+
+<pre id="patchDataOutputPostman">
+{
+   "message": "User single record updated successfully"
+}
+</pre>
+
+
+<!-- Delete -->
+<pre id="deleteSingleDataController">
+public function deleteSingleUser($id=null){
+   $user = User::findOrFail($id)->delete(); 
+   $message = 'Single user delete successfully';
+   return response()->json(['message'=>$message], 200);
+}
+</pre>
+
+<pre id="deleteSingleDataOutputPostman">
+{
+   "message": "Single user ID no[5] delete successfully"
+}
+</pre>
+
+<pre id="deleteMultipleDataController">
+public function deleteMultipleUser($ids){
+   $ids = explode(',', $ids);
+   $user = User::whereIn('id', $ids)->delete();
+   $message = 'Multiple user'.collect($ids).' delete successfully';
+   return response()->json(['message'=>$message], 200);
+}
+</pre>
+
+<pre id="deleteMultipleDataOutputPostman">
+{
+   "message": "Multiple user[\"1\",\"2\",\"3\"]delete successfully"
+}
+</pre>
+
+<pre id="deleteSingleDataWithJsonController">
+public function deleteSingleUserWithJson(Request $request){
+   if($request->isMethod('delete')){
+      $data = $request->all(); 
+      User::where('id', $data['id'])->delete(); 
+      $message = 'Single user Id no['.$data['id'].'] delete with json successfully';
+      return response()->json(['message'=>$message], 200);
+   }      
+}
+</pre>
+
+<pre id="deleteSingleDataWithJsonInsertPostman">
+{
+   "id" : 10
+}
+</pre>
+
+<pre id="deleteSingleDataWithJsonOutputPostman">
+{
+   "message": "Single user Id no[10] delete with json successfully"
+}
+</pre>
+
+<pre id="deleteMultipleDataWithJsonController">
+public function deleteMultipleUserWithJson(Request $request){
+   if($request->isMethod('delete')){
+      $data = $request->all(); 
+      User::whereIn('id', $data['ids'])->delete();
+      
+      $dataList = collect($data['ids'])->pluck('id');
+      $message = 'Multiple user'.$dataList.' delete with json successfully';
+      return response()->json(['message'=>$message], 200);
+   }      
+}
+</pre>
+
+<pre id="deleteMultipleDataWithJsonInsertPostman">
+{
+   "ids" : [
+     {
+         "id":1
+     },
+     {
+         "id":2
+     },
+     {
+         "id":3
+     }
+   ]
+}
+</pre>
+
+<pre id="deleteMultipleDataWithJsonOutputPostman">
+{
+   "message": "Multiple user[1,2,3] delete with json successfully"
+}
+</pre>
+
+<!-- JWT -->
+<pre id="userDeleteWithSecureController">
+Link: https://jwt.io/
+
+public function userDeleteWithSecure(Request $request, $id){
+   $header = $request->header('Authorization');
+   $jwt = 'About 151 characters jwt value';
+   
+   if($header==null){
+      $message = 'Authorization is required';
+      return response()->json(['message'=>$message], 422);
+   }else{
+      if($header==$jwt){
+         if ($request->isMethod('delete')) {
+            $user = User::findOrFail($id)->delete(); 
+            $message = 'Single user['.$id.'] delete successfully';
+            return response()->json(['message'=>$message], 200);
+         }
+      }else{
+         $message = 'Authorization does\'t match';
+         return response()->json(['message'=>$message], 422);
+      }
+   }
+}
+</pre>
+
+<pre id="userDeleteWithSecureOutputPostman">
+{
+   "message": "Single user[5] delete successfully"
+}
+</pre>
+
+
+<!-- Passport -->
+<pre id="installPassport">
+
+   1.Install Passport
+   composer require laravel/passport
+
+   If time out error comes then run the bellow command
+   COMPOSER_MEMORY_LIMIT=-1 composer require laravel/passport
+
+   2. Migration
+   php artisan migrate
+
+   3.Key Generate
+   php artisan passport:install
+
+   4.User Model
+   use Laravel\Passport\HasApiTokens;
+   use HasApiTokens, HasFactory, Notifiable;
+
+   5. Update App\Providers\AuthServiceProvider
+   use Laravel\Passport\Passport;
+
+   In boot function add  
+   Passport::routes();
+
+   6. Update config/auth.php
+      ->Authentication Guards->guards
+      'api' => [
+         'driver' => 'passport',
+         'provider' => 'users',
+      ],
+
+   7. create route and function in controller
+</pre>
+
+<pre id="registerUserUsingPassportController">
+//Create user table 'access_token'->nullable() column after email
+
+public function registerUserUsingPassport(Request $request){
+   if($request->ismethod('post')){
+      $data = $request->all();
+
+      // Validation
+      $rules = [
+         'name' => 'required',
+         'email' => 'required|email|unique:users',
+         'password' => 'required',
+      ];
+
+      $customMessage = [
+         'name.required' => 'Name is required',
+         'email.required' => 'Email is required',
+         'email.email' => 'Email must be a valid email',
+         'password.required' => 'Password is required',
+      ];
+      $validator = Validator::make($data, $rules, $customMessage);
+      if ($validator->fails()) {
+         return response()->json($validator->errors(),422);
+      }
+
+      $user = new User();
+      $user->name = $data['name'];
+      $user->email = $data['email'];
+      $user->password = bcrypt($data['password']);
+      $user->save();
+
+      if (Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']])){
+         $user = User::where('email', $data['email'])->first();
+         $access_token = $user->createToken($data['email'])->accessToken;
+         User::where('email', $data['email'])->update(['access_token'=>$access_token]);
+         $message = 'User registerd successfully';
+         return response()->json(['message'=>$message, 'access_token'=>$access_token], 201);
+      }else{
+         $message = 'Opps! Something went wrong';
+         return response()->json(['message'=>$message], 422);
+      }
+   }
+}
+</pre>
+
+<pre id="registerUserUsingPassportOutputPostman">
+{
+   "message": "User registerd successfully",
+   "access_token": "About 955 characters message"
+}
+<b>Or...</b>
+{
+   "email": [
+      "The email has already been taken."
+   ]
+}
+</pre>
+
+<pre id="loginUserUsingPassportController">
+public function loginUserUsingPassport(Request $request){
+   if($request->ismethod('post')){
+      $data = $request->all();
+
+      // Validation
+      $rules = [
+         'email' => 'required|email|exists:users',
+         'password' => 'required',
+      ];
+
+      $customMessage = [
+         'email.required' => 'Email is required',
+         'email.email' => 'Email must be a valid email',
+         'email.exists' => 'Email does not exists',
+         'password.required' => 'Password is required',
+      ];
+      $validator = Validator::make($data, $rules, $customMessage);
+      if ($validator->fails()) {
+         return response()->json($validator->errors(),422);
+      }
+
+      if (Auth::attempt(['email'=>$data['email'], 'password'=>$data['password']])){
+         $user = User::where('email', $data['email'])->first();
+         $access_token = $user->createToken($data['email'])->accessToken;
+         User::where('email', $data['email'])->update(['access_token'=>$access_token]);
+         $message = 'User login successfully';
+         return response()->json(['message'=>$message, 'access_token'=>$access_token], 201);
+      }else{
+         $message = 'Invalid email or password';
+         return response()->json(['message'=>$message], 422);
+      }
+   }
+}
+</pre>
+
+<pre id="loginUserUsingPassportOutputPostman">
+{
+   "message": "User login successfully",
+   "access_token": "About 955 characters message"
+}
+<b>Or...</b>
+{
+   "email": [
+      "Email does not exists"
+   ]
+}
+</pre>

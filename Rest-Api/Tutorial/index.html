@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+   <meta charset="utf-8">
+   <title>Restfull Api Tutorial</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- <meta http-equiv="refresh" content="3"> -->
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="container-fluid">
+
+   <div class="my-4">
+      <fieldset>
+         <legend align="center">Restfull API Tutorial</legend>
+                
+         <nav class="bg-light text-center">
+            <div class="nav nav-tabs ml-auto" id="nav-tab" role="tablist">
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1" data-bs-toggle="pill" data-bs-target="#v-pills-restInstall">Rest Api Install</button>
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1 active" data-bs-toggle="pill" data-bs-target="#v-pills-Get">Get</button>
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1" data-bs-toggle="pill" data-bs-target="#v-pills-Post">Post</button>
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1" data-bs-toggle="pill" data-bs-target="#v-pills-Put_Patch">Put/Patch</button>
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1" data-bs-toggle="pill" data-bs-target="#v-pills-Delete">Delete</button>
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1" data-bs-toggle="pill" data-bs-target="#v-pills-JWT">Secure API</button>
+               <button class="btn btn-outline-primary px-2 py-0 mx-2 my-1" data-bs-toggle="pill" data-bs-target="#v-pills-Passport">Passport</button>
+            </div>
+         </nav>
+
+         <div class="tab-content col" id="v-pills-tabContent">
+            <!-- Rest Api Install -->
+            <div class="tab-pane fade show" id="v-pills-restInstall">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-Get_Code" role="tabpanel" aria-labelledby="nav-Get_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info2 bg-primary">[Rest Api Install]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Name</th>
+                                          <th>Link</th>
+                                          <th>Other work</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>                                         
+                                       <tr>
+                                          <td>Laravel Install</td>
+                                          <td>
+                                             <a href="https://laravel.com/docs/8.x" target="_blank" class="text-light">Laravel 8 link</a>
+                                             <br>
+                                             Laravel install by terminal : <br>
+                                             composer create-project laravel/laravel example-app
+                                             <br>
+                                             <a href="https://getcomposer.org/" target="_blank" class="text-light">Composer download & install</a>
+                                          </td>                                          
+                                          <td id="laravelTable"></td>
+                                       </tr>
+
+                                       <tr>
+                                          <td>Postman</td>
+                                          <td> <a href="https://www.postman.com/downloads/" target="_blank" class="text-light">Postman download</a></td>
+                                          <td>Full tutorial link : <a href="https://www.youtube.com/playlist?list=PLjsp2uDzfb33uFpMsT_P_t6aw87-t6t26" target="_blank" class="text-light">Youtube video</a>
+                                          </td>
+                                       </tr>                          
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>                    
+               </div>
+            </div>
+
+            <!-- Get -->
+            <div class="tab-pane fade show active" id="v-pills-Get">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-Get_Code" role="tabpanel" aria-labelledby="nav-Get_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info">[Get api for fetch(show) user]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Purpose</th>
+                                          <th>api.php</th>
+                                          <th>Controller</th>
+                                          <th>Postman</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>                                         
+                                       <tr>
+                                          <td>View all data</td>
+                                          <td>
+                                             <p id="apiFirst"></p>
+                                             Route::get('/users/{id?}/', [UserController::class, 'showUser']);
+                                          </td>                                            
+                                          <td>
+                                             <p id="controllerFirst"></p>
+                                             <p id="getDataController"></p>
+                                          </td>
+                                          <td>
+                                             <table class="table">                                            
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>GET</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>
+                                                      <b>When show all data</b> <br>
+                                                      http://127.0.0.1:8000/api/users/
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="getAllDataPostman"></td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url2</b></td>
+                                                    <td>
+                                                      <b>When show single data</b> <br>
+                                                      http://127.0.0.1:8000/api/users/5
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output2</b></td>
+                                                   <td id="getSingleDataPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>                           
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>                    
+               </div>
+            </div>
+
+            <!-- Post -->
+            <div class="tab-pane fade show" id="v-pills-Post">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-Post_Code" role="tabpanel" aria-labelledby="nav-Post_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info">[Post api for add user]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Purpose</th>
+                                          <th>api.php</th>
+                                          <th>Controller</th>
+                                          <th>Postman</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td rowspan="2">Post [add] data</td>
+                                          <td>
+                                             <b>Post api for add single data</b> <br>
+                                             Route::post('/add-user/', [UserController::class, 'addUser']);
+                                          </td>                                            
+                                          <td id="postSingleDataController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>POST</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/add-user/</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> form-data;</b></td>
+                                                   <td>
+                                                      <table class="table">
+                                                         <thead>
+                                                            <th>KEY</th>
+                                                            <th>VALUE</th>
+                                                         </thead>
+                                                         <tr>
+                                                            <td>name</td>
+                                                            <td>Aslam</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td>email</td>
+                                                            <td>aslam@gmail.com</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td>password</td>
+                                                            <td>123456</td>
+                                                         </tr>
+                                                      </table>
+                                                   </td>
+                                                </tr>                                                  
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="postSingleDataOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <b>Post api for add multiple data</b> <br>
+                                             Route::post('/add-multiple-user/', [UserController::class, 'addMultipleUser']);    
+                                          </td>                                            
+                                          <td id="postMultipleDataController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>POST</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>                                                         
+                                                      http://127.0.0.1:8000/api/add-multiple-user/
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> raw; <br>JSON;</b></td>
+                                                   <td id="postMultipleDataInsertPostman"></td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="postMultipleDataOutputPostman"></td>
+                                                </tr> 
+                                             </table>
+                                          </td>                 
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Put/Patch -->
+            <div class="tab-pane fade show" id="v-pills-Put_Patch">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-Put_Patch_Code" role="tabpanel" aria-labelledby="nav-Put_Patch_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info">[Put/Patch api for update user details]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Purpose</th>
+                                          <th>api.php</th>
+                                          <th>Controller</th>
+                                          <th>Postman</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td rowspan="2">Put/Patch update data</td>
+                                          <td>
+                                             <b>Put api for update user details</b> <br>                                                
+                                             Route::put('/update-user-details/{id}/', [UserController::class, 'updateUserDetails']);
+                                          </td>                                            
+                                          <td id="putDataController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>PUT</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/update-user-details/5</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> raw; <br>JSON;</b></td>
+                                                   <td id="putDataPostman"></td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="putDataOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>
+                                       <tr>
+                                          <td>
+                                             <b>Developer will update one column's record using by patch...</b> <br>                                                
+                                             Route::patch('/update-single-record/{id}/', [UserController::class, 'updateSingleRecord']);
+                                          </td>                                            
+                                          <td id="patchDataController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>PATCH</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/update-single-record/5</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> raw; <br>JSON;</b></td>
+                                                   <td id="patchDataPostman"></td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="patchDataOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>                                                  
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Delete -->
+            <div class="tab-pane fade show" id="v-pills-Delete">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-Delete_Code" role="tabpanel" aria-labelledby="nav-Delete_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info">[Delete api for delete single/multiple user with/without json]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Purpose</th>
+                                          <th>api.php</th>
+                                          <th>Controller</th>
+                                          <th>Postman</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td rowspan="4">Detete data</td>
+                                          <td>
+                                             <b>Delete api for delete single user</b> <br>
+                                             Route::delete('/delete-single-user/{id}/', [UserController::class, 'deleteSingleUser']);
+                                          </td> 
+                                          <td id="deleteSingleDataController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>DELETE</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/delete-single-user/5</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="deleteSingleDataOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>
+
+                                       <tr>
+                                          <td>
+                                             <b>Delete api for delete multiple user</b> <br>
+                                             Route::delete('/delete-multiple-user/{ids}/', [UserController::class, 'deleteMultipleUser']);
+                                          </td>                                            
+                                          <td id="deleteMultipleDataController"></td>
+                                          <td>
+                                             <table class="table">                                 
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>DELETE</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/delete-multiple-user/1,2,3</td>
+                                                </tr>                                                   
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="deleteMultipleDataOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>
+
+                                       <tr>
+                                          <td>
+                                             <b>Delete api for delete single user with json</b> <br>
+                                             Route::delete('/delete-single-user-with-json/', [UserController::class, 'deleteSingleUserWithJson']);
+                                          </td>                                            
+                                          <td id="deleteSingleDataWithJsonController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>DELETE</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/update-user-details/5</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> raw; <br>JSON;</b></td>
+                                                   <td id="deleteSingleDataWithJsonInsertPostman"></td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="deleteSingleDataWithJsonOutputPostman"></td>
+                                                </tr>
+                                             </table> 
+                                          </td>
+                                       </tr>   
+
+                                       <tr>
+                                          <td>
+                                             <b>Delete api for delete multiple user with json</b> <br>
+                                             Route::delete('/delete-multiple-user-with-json/', [UserController::class, 'deleteMultipleUserWithJson']);
+                                          </td>                                            
+                                          <td id="deleteMultipleDataWithJsonController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>DELETE</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/delete-multiple-user-with-json</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> raw; <br>JSON;</b></td>
+                                                   <td id="deleteMultipleDataWithJsonInsertPostman"></td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="deleteMultipleDataWithJsonOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>                                                 
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- JWT -->
+            <div class="tab-pane fade show" id="v-pills-JWT">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-JWT_Code" role="tabpanel" aria-labelledby="nav-JWT_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info">[Secure API with JWT]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Purpose</th>
+                                          <th>api.php</th>
+                                          <th>Controller</th>
+                                          <th>Postman</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td>CRUD with Secure</td>
+                                          <td>
+                                             <b>Now detete a data with secure</b> <br>
+                                             Route::delete('/user-delete-with-secure/{id}/', [UserController::class, 'userDeleteWithSecure']);
+                                          </td> 
+                                          <td id="userDeleteWithSecureController"></td>
+                                          <td>
+                                             <table class="table">                                                
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>DELETE</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/user-delete-with-secure/5</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Headers;</b></td>
+                                                   <td>
+                                                      <table class="table">
+                                                         <thead>
+                                                            <th>KEY</th>
+                                                            <th>VALUE</th>
+                                                         </thead>
+                                                         <tr>
+                                                            <td>Authorization</td>
+                                                            <td>About 151 characters jwt value</td>
+                                                         </tr>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="userDeleteWithSecureOutputPostman"></td>
+                                                </tr>
+                                             </table> 
+
+                                          </td>
+                                       </tr>                                              
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Passport -->
+            <div class="tab-pane fade show" id="v-pills-Passport">
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active resp-tab-content" id="nav-Passport_Code" role="tabpanel" aria-labelledby="nav-Passport_Code-tab">
+                     <div class="row">
+                        <div class="col">
+                           <div class="card">
+                              <div class="card-header info">[Laravel passport : Passport is a library. Make a authentication by using laravel]</div>
+                              <div class="card-body">
+                                 <table class="table table-bordered">
+                                    <thead class="text-center">
+                                       <tr>
+                                          <th>Purpose</th>
+                                          <th>api.php</th>
+                                          <th>Controller</th>
+                                          <th>Postman</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td colspan="2">Install and configure laravel passport.</td>
+                                          <td colspan="2" id="installPassport"></td>
+                                       </tr> 
+                                       
+                                       <tr>
+                                          <td>Register api using passport</td>
+                                          <td>
+                                             Route::post('/register-user-using-passport/', [UserController::class, 'registerUserUsingPassport']);   
+                                          </td> 
+                                          <td id="registerUserUsingPassportController"></td>
+                                          <td>
+                                             <table class="table">                     
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>POST</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/register-user-using-passport/</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> form-data;</b></td>
+                                                   <td>
+                                                      <table class="table">
+                                                         <thead>
+                                                            <th>KEY</th>
+                                                            <th>VALUE</th>
+                                                         </thead>
+                                                         <tr>
+                                                            <td>name</td>
+                                                            <td>Md Aslam</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td>email</td>
+                                                            <td>aslam@gmail.com</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td>password</td>
+                                                            <td>123456</td>
+                                                         </tr>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="registerUserUsingPassportOutputPostman"></td>
+                                                </tr>
+                                             </table> 
+
+                                          </td>
+                                       </tr>
+
+                                       <tr>
+                                          <td>Login api using passport</td>
+                                          <td>
+                                             Route::post('/login-user-using-passport/', [UserController::class, 'loginUserUsingPassport']);
+                                          </td> 
+                                          <td id="loginUserUsingPassportController"></td>
+                                          <td>
+                                             <table class="table">                     
+                                                <tr>
+                                                   <td><b>Method</b></td>
+                                                   <td>POST</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Url</b></td>
+                                                   <td>http://127.0.0.1:8000/api/login-user-using-passport/</td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Body;<br> form-data;</b></td>
+                                                   <td>
+                                                      <table class="table">
+                                                         <thead>
+                                                            <th>KEY</th>
+                                                            <th>VALUE</th>
+                                                         </thead>
+                                                         <tr>
+                                                            <td>email</td>
+                                                            <td>aslam@gmail.com</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td>password</td>
+                                                            <td>123456</td>
+                                                         </tr>
+                                                      </table>
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td><b>Output</b></td>
+                                                   <td id="loginUserUsingPassportOutputPostman"></td>
+                                                </tr>
+                                             </table>
+                                          </td>
+                                       </tr>
+
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </fieldset>
+   </div>
+
+   <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+   <script type="text/javascript" src="js/bootstrap.min.js"></script>
+   
+   <script>
+      $(function(){
+         // Rest install...
+            $("#laravelTable").load("api.html #laravelTable");        
+         
+         // Get...
+            // Code
+            $("#apiFirst").load("api.html #apiFirst");
+            $("#controllerFirst").load("api.html #controllerFirst");
+            $("#getDataController").load("api.html #getDataController");
+
+            // Result
+            $("#getAllDataPostman").load("api.html #getAllDataPostman");
+            $("#getSingleDataPostman").load("api.html #getSingleDataPostman");
+
+         // Post...
+            // Code
+            $("#postSingleDataController").load("api.html #postSingleDataController");
+            $("#postMultipleDataController").load("api.html #postMultipleDataController");
+            $("#postMultipleDataInsertPostman").load("api.html #postMultipleDataInsertPostman");
+
+            // Result
+            $("#postSingleDataOutputPostman").load("api.html #postSingleDataOutputPostman");
+            $("#postMultipleDataOutputPostman").load("api.html #postMultipleDataOutputPostman");
+
+         // Put...
+            //Code
+            $("#putDataController").load("api.html #putDataController");
+            $("#putDataPostman").load("api.html #putDataPostman");
+            // Result
+            $("#putDataOutputPostman").load("api.html #putDataOutputPostman");
+
+         // Patch...
+            //Code
+            $("#patchDataController").load("api.html #patchDataController");
+            $("#patchDataPostman").load("api.html #patchDataPostman");
+            // Result
+            $("#patchDataOutputPostman").load("api.html #patchDataOutputPostman");
+
+         // Delete...
+            //Code
+            $("#deleteSingleDataController").load("api.html #deleteSingleDataController");
+            $("#deleteMultipleDataController").load("api.html #deleteMultipleDataController");
+            $("#deleteSingleDataWithJsonController").load("api.html #deleteSingleDataWithJsonController");
+            $("#deleteMultipleDataWithJsonController").load("api.html #deleteMultipleDataWithJsonController");
+
+            // Result
+            $("#deleteSingleDataOutputPostman").load("api.html #deleteSingleDataOutputPostman");
+            
+            $("#deleteMultipleDataOutputPostman").load("api.html #deleteMultipleDataOutputPostman");
+            
+            $("#deleteSingleDataWithJsonInsertPostman").load("api.html #deleteSingleDataWithJsonInsertPostman");
+            $("#deleteSingleDataWithJsonOutputPostman").load("api.html #deleteSingleDataWithJsonOutputPostman");
+            
+            $("#deleteMultipleDataWithJsonInsertPostman").load("api.html #deleteMultipleDataWithJsonInsertPostman");
+            $("#deleteMultipleDataWithJsonOutputPostman").load("api.html #deleteMultipleDataWithJsonOutputPostman");
+
+         // JWT...
+            //Code
+            $("#userDeleteWithSecureController").load("api.html #userDeleteWithSecureController");
+            
+            //Result
+            $("#userDeleteWithSecureOutputPostman").load("api.html #userDeleteWithSecureOutputPostman");
+         
+         // Passport...
+            $("#installPassport").load("api.html #installPassport");
+            $("#registerUserUsingPassportController").load("api.html #registerUserUsingPassportController");
+            $("#registerUserUsingPassportOutputPostman").load("api.html #registerUserUsingPassportOutputPostman");
+            
+            $("#loginUserUsingPassportController").load("api.html #loginUserUsingPassportController");
+            $("#loginUserUsingPassportOutputPostman").load("api.html #loginUserUsingPassportOutputPostman");           
+
+      });
+   </script>
+</body>
+</html>
