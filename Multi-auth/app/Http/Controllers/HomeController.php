@@ -12,9 +12,36 @@ class HomeController extends Controller
     //     $this->middleware('auth');
     // }
 
-    public function index()
+    public function home(Request $request){
+		if(auth()->user() && $type = auth()->user()->type) {
+			if($type == 'user'){
+				return redirect()->route('user.home');
+			}
+			else if($type == 'admin'){
+				return redirect()->route('admin.home');
+			}
+			else if($type == 'manager'){
+				return redirect()->route('manager.home');
+			}
+
+            // if(auth()->user()->type == 'user'){
+			// 	return redirect()->route('user.home');
+			// }
+			// else if(auth()->user()->type == 'admin'){
+			// 	return redirect()->route('admin.home');
+			// }
+			// else if(auth()->user()->type == 'manager'){
+			// 	return redirect()->route('manager.home');
+			// }
+		}
+		else{
+			return redirect()->route('login')->with('error', 'Email-address and password are wrong.');
+		}
+    }
+
+    public function userHome()
     {
-        return view('home');
+        return view('userHome');
     }
 
 	public function adminHome()

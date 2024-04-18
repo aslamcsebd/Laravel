@@ -10,11 +10,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
 
 // Normal user route listo
 Route::middleware(['auth', 'user-access:user'])->group(function() {
-	Route::get('/home', [HomeController::class, 'index'])->name('home');
+	Route::get('/user/home', [HomeController::class, 'userHome'])->name('user.home');
 });
 
 // Admin route list
